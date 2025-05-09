@@ -1,25 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mohanakahanan | Full Stack Developer</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #ff007f;
+            --secondary-color: #000000;
+            --light-bg: #ffffff;
+            --dark-bg: #121212;
+            --light-text: #000000;
+            --dark-text: #ffffff;
+        }
+
+        [data-theme='light'] {
+            --bg-color: var(--light-bg);
+            --text-color: var(--light-text);
+        }
+
+        [data-theme='dark'] {
+            --bg-color: var(--dark-bg);
+            --text-color: var(--dark-text);
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        html {
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        header,
+        section,
+        footer {
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
 
         .hero {
-            background: linear-gradient(to right, #ff007f, #000000);
+            position: relative;
             color: white;
-            padding: 100px 20px;
             text-align: center;
         }
 
+        .hero video {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: auto;
+            object-fit: cover; /* Ensures the video covers the hero section */
+        }
+
+        .hero-content {
+            position: relative;
+        }
+
         .btn-primary {
-            background-color: #ff007f;
+            background-color: var(--primary-color);
             border: none;
         }
 
@@ -31,6 +83,11 @@
             padding: 60px 20px;
         }
 
+        .container {
+            max-width: 100%; /* Prevents content from exceeding the viewport width */
+            overflow: hidden; /* Prevents accidental overflow */
+        }
+
         .project-card {
             transition: transform 0.3s ease-in-out;
         }
@@ -38,119 +95,349 @@
         .project-card:hover {
             transform: scale(1.05);
         }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .social-icons a {
+            color: var(--text-color);
+            font-size: 2rem;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+
+        .tech-logo {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 10px;
+            background-color: white;
+            border-radius: 12px;
+        }
+
+        .tech-logo:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .skill-item {
+            position: relative;
+        }
+
+        .hover-description {
+            display: none;
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .skill-item:hover .hover-description {
+            display: block;
+        }
+
+        footer {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+        .project-card img {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+        }
+
+        .project-card .btn-primary:hover {
+            background-color: #e60073;
+        }
+        .tech-logo-wrapper {
+            display: inline-block;
+            padding: 15px;
+            background: linear-gradient(135deg, #f0f0f0, #ffffff);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-description { display: none; position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); background-color: var(--bg-color); color: var(--text-color); padding: 3px 6px; border-radius: 4px; font-size: 0.7rem; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+
+        .skill-item:hover .hover-description {
+            display: block;
+        }
     </style>
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="#">Mohanakahanan</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fw-semibold" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fw-semibold" href="#skills">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fw-semibold" href="#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fw-semibold" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Theme Toggle -->
+    <button class="btn btn-outline-light theme-toggle" id="themeToggle">
+        <i class="bi bi-moon"></i>
+    </button>
 
     <!-- Hero Section -->
-    <header class="hero">
-        <h1>Hello, I'm Mohanakahanan</h1>
-        <p class="lead">Full Stack Developer | AI Enthusiast | Future Tech Leader</p>
-        <a href="#contact" class="btn btn-primary mt-3">Hire Me</a>
+    <header class="hero position-relative"></header>
+        <video autoplay muted loop class="w-100" style="height: 100vh; object-fit: cover;">
+            <source src="0510.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-content d-flex flex-column justify-content-center align-items-center text-center position-absolute top-50 start-50 translate-middle text-white">
+            <h1 class="display-3 fw-bold text-shadow">Hello, I'm Mohanakahanan</h1>
+            <p class="lead fs-4 text-shadow">Full Stack Developer</p>
+            <a href="#contact" class="btn btn-primary mt-4 px-5 py-3 shadow-lg">Hire Me</a>
+        </div>
     </header>
+    <style>
+        .text-shadow {
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+        }
+    </style>
 
     <!-- About Section -->
-    <section id="about" class="section bg-light">
+    <section id="about" class="section bg-light text-dark">
         <div class="container">
-            <h2 class="text-center mb-4">About Me</h2>
+            <h2 class="text-center mb-4 fw-bold">About Me</h2>
             <div class="row justify-content-center">
                 <div class="col-md-8 text-center">
-                    <p>
+                    <p class="fs-5 lh-lg"></p>
                         I'm a passionate full stack developer with experience in .NET, Angular, Flutter, and SQL Server.
-                        Currently studying Computer Science at Uva Wellassa University and aiming to become a Tech Lead
-                        or CEO.
+                        I love creating efficient and scalable applications. My goal is to build software that makes a
+                        difference in people's lives. I have a strong foundation in both front-end and back-end technologies,
+                        and I'm always eager to learn new skills and improve my craft. I enjoy working in collaborative
+                        environments and thrive on challenges that push me to grow. In my free time, I like to explore new
+                        technologies, contribute to open-source projects, and share my knowledge with others. I'm excited to
+                        connect with like-minded individuals and work on innovative projects that have a positive impact.
                     </p>
                 </div>
             </div>
         </div>
     </section>
-
     <!-- Skills Section -->
     <section id="skills" class="section">
         <div class="container">
-            <h2 class="text-center mb-4">Skills</h2>
-            <div class="row text-center">
-                <div class="col-md-3 mb-3">.NET 8</div>
-                <div class="col-md-3 mb-3">Angular</div>
-                <div class="col-md-3 mb-3">Flutter</div>
-                <div class="col-md-3 mb-3">SQL Server</div>
-                <div class="col-md-3 mb-3">Firebase</div>
-                <div class="col-md-3 mb-3">Docker</div>
-                <div class="col-md-3 mb-3">HTML/CSS/JS</div>
-                <div class="col-md-3 mb-3">Git & GitHub</div>
+            <h2 class="text-center mb-4 fw-bold">Skills</h2>
+            <div class="row justify-content-center g-4">
+                <div class="col-6 col-md-3 text-center skill-item">
+                    <div class="tech-logo-wrapper">
+                        <img src="docker.png" class="tech-logo" alt="Docker">
+                    </div>
+                    <p class="mt-2 fw-semibold">Docker</p>
+                    <div class="hover-description">A platform for containerized applications.</div>
+                </div>
+                <div class="col-6 col-md-3 text-center skill-item">
+                    <div class="tech-logo-wrapper">
+                        <img src="dotnet.png" class="tech-logo" alt=".NET">
+                    </div>
+                    <p class="mt-2 fw-semibold">.NET</p>
+                    <div class="hover-description">A framework for building scalable applications.</div>
+                </div>
+                <div class="col-6 col-md-3 text-center skill-item">
+                    <div class="tech-logo-wrapper">
+                        <img src="angular.png" class="tech-logo" alt="Angular">
+                    </div>
+                    <p class="mt-2 fw-semibold">Angular</p>
+                    <div class="hover-description">A framework for building dynamic web apps.</div>
+                </div>
+                <div class="col-6 col-md-3 text-center skill-item">
+                    <div class="tech-logo-wrapper">
+                        <img src="flutter.png" class="tech-logo" alt="Flutter">
+                    </div>
+                    <p class="mt-2 fw-semibold">Flutter</p>
+                    <div class="hover-description">A framework for building cross-platform apps.</div>
+                </div>
+                <div class="col-6 col-md-3 text-center skill-item">
+                    <div class="tech-logo-wrapper">
+                        <img src="firebase.png" class="tech-logo" alt="Firebase">
+                    </div>
+                    <p class="mt-2 fw-semibold">Firebase</p>
+                    <div class="hover-description">A platform for backend services.</div>
+                </div>
+                <div class="col-6 col-md-3 text-center skill-item">
+                    <div class="tech-logo-wrapper">
+                        <img src="sqlserver.png" class="tech-logo" alt="SQL Server">
+                    </div>
+                    <p class="mt-2 fw-semibold">SQL Server</p>
+                    <div class="hover-description">A relational database management system.</div>
+                </div>
+                <div class="col-6 col-md-3 text-center skill-item">
+                    <div class="tech-logo-wrapper">
+                        <img src="python.png" class="tech-logo" alt="Python">
+                    </div>
+                    <p class="mt-2 fw-semibold">Python</p>
+                    <div class="hover-description">A versatile programming language.</div>
+                </div>
+                <div class="col-6 col-md-3 text-center skill-item">
+                    <div class="tech-logo-wrapper">
+                        <img src="html.png" class="tech-logo" alt="HTML">
+                    </div>
+                    <p class="mt-2 fw-semibold">HTML</p>
+                    <div class="hover-description">The standard markup language for web pages.</div>
+                </div>
+                <div class="col-6 col-md-3 text-center skill-item">
+                    <div class="tech-logo-wrapper">
+                        <img src="css.png" class="tech-logo" alt="CSS">
+                    </div>
+                    <p class="mt-2 fw-semibold">CSS</p>
+                    <div class="hover-description">Stylesheet language for designing web pages.</div>
+                </div>
+                <div class="col-6 col-md-3 text-center skill-item">
+                    <div class="tech-logo-wrapper">
+                        <img src="js.png" class="tech-logo" alt="JavaScript">
+                    </div>
+                    <p class="mt-2 fw-semibold">JavaScript</p>
+                    <div class="hover-description">A scripting language for interactive web pages.</div>
+                </div>
+                <div class="col-6 col-md-3 text-center skill-item">
+                    <div class="tech-logo-wrapper">
+                        <img src="bootstrap.png" class="tech-logo" alt="Bootstrap">
+                    </div>
+                    <p class="mt-2 fw-semibold">Bootstrap</p>
+                    <div class="hover-description">A CSS framework for responsive design.</div>
+                </div>
+                <div class="col-6 col-md-3 text-center skill-item">
+                    <div class="tech-logo-wrapper">
+                        <img src="git.png" class="tech-logo" alt="Git">
+                    </div>
+                    <p class="mt-2 fw-semibold">Git</p>
+                    <div class="hover-description">A version control system for tracking changes.</div>
+                </div>
             </div>
         </div>
     </section>
-
+    
+    
     <!-- Projects Section -->
-    <section id="projects" class="section bg-light">
+    <section id="projects" class="section bg-light text-dark"></section>
         <div class="container">
-            <h2 class="text-center mb-4">Projects</h2>
+            <h2 class="text-center mb-4 fw-bold">Projects</h2>
             <div class="row g-4">
+                <!-- Project 1 -->
                 <div class="col-md-4">
-                    <div class="card project-card">
+                    <div class="card project-card shadow-lg border-0">
+                        <img src="Gym-Management-System.webp" class="card-img-top" alt="Gym Management System">
                         <div class="card-body">
-                            <h5 class="card-title">Gym Management System</h5>
-                            <p class="card-text">A full-featured web app using .NET, SQL Server, and Angular for
-                                managing gym memberships and plans.</p>
+                            <h5 class="card-title fw-bold">Gym Management System</h5>
+                            <p class="card-text">A full-featured web app using .NET, SQL Server, and Angular for managing gym memberships and plans.</p>
+                            <a href="https://github.com/your-repo" target="_blank" class="btn btn-primary">View on GitHub</a>
                         </div>
                     </div>
                 </div>
+                <!-- Project 2 -->
                 <div class="col-md-4">
-                    <div class="card project-card">
+                    <div class="card project-card shadow-lg border-0">
+                        <img src="poddle-material.jpg" class="card-img-top" alt="Poddle Material Selling">
                         <div class="card-body">
-                            <h5 class="card-title">Poddle Material Selling</h5>
-                            <p class="card-text">E-commerce material selling site built with Angular and Firebase
-                                backend, styled in pink/white/black theme.</p>
+                            <h5 class="card-title fw-bold">Poddle Material Selling</h5>
+                            <p class="card-text">E-commerce material selling site built with Angular and Firebase backend, styled in pink/white/black theme.</p>
+                            <a href="#" class="btn btn-primary">Learn More</a>
                         </div>
                     </div>
                 </div>
+                <!-- Project 3 -->
                 <div class="col-md-4">
-                    <div class="card project-card">
+                    <div class="card project-card shadow-lg border-0">
+                        <img src="banking-app.jpg" class="card-img-top" alt="Banking App">
                         <div class="card-body">
-                            <h5 class="card-title">Banking App (Python)</h5>
-                            <p class="card-text">Learning project using Python for managing basic bank accounts and
-                                transactions through CLI.</p>
+                            <h5 class="card-title fw-bold">Banking App (Python)</h5>
+                            <p class="card-text">Learning project using Python for managing basic bank accounts and transactions through CLI.</p>
+                            <a href="#" class="btn btn-primary">Learn More</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    
 
-    <!-- Contact Section -->
-    <section id="contact" class="section">
+    <!-- Contact / Social Section -->
+    <section id="contact" class="section text-center">
         <div class="container">
-            <h2 class="text-center mb-4">Contact Me</h2>
-            <form class="row g-3 justify-content-center">
-                <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Your Name" required>
-                </div>
-                <div class="col-md-6">
-                    <input type="email" class="form-control" placeholder="Your Email" required>
-                </div>
-                <div class="col-12">
-                    <textarea class="form-control" rows="4" placeholder="Your Message" required></textarea>
-                </div>
-                <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                </div>
-            </form>
+            <h2 class="mb-4 fw-bold">Connect with Me</h2>
+            <p class="mb-4">Feel free to reach out to me on any of these platforms!</p>
+            <div class="social-icons d-flex justify-content-center gap-4">
+                <a href="https://www.linkedin.com/in/mohanakahnan-sooriyakanthan/" target="_blank" aria-label="LinkedIn" class="text-dark fs-3">
+                    <i class="bi bi-linkedin"></i>
+                </a>
+                <a href="https://youtube.com/@kahnanstalk?si=kZCn4DGR02IWMypv" target="_blank" aria-label="YouTube" class="text-dark fs-3">
+                    <i class="bi bi-youtube"></i>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" aria-label="Facebook" class="text-dark fs-3">
+                    <i class="bi bi-facebook"></i>
+                </a>
+                <a href="https://www.instagram.com" target="_blank" aria-label="Instagram" class="text-dark fs-3">
+                    <i class="bi bi-instagram"></i>
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="text-center py-4 bg-dark text-white">
-        <p>&copy; 2025 Mohanakahanan. All rights reserved.</p>
+        <p class="mb-0">&copy; 2025 Mohanakahanan. All rights reserved.</p>
+        <p class="small">Designed with ❤️ and passion.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.querySelector("form").addEventListener("submit", function (e) {
-            e.preventDefault();
-            alert("Message sent (demo only)!");
-            this.reset();
+        // Theme switch logic
+        const themeToggle = document.getElementById("themeToggle");
+        const htmlElement = document.documentElement;
+        const icon = themeToggle.querySelector("i");
+
+        themeToggle.addEventListener("click", () => {
+            const isDark = htmlElement.getAttribute("data-theme") === "dark";
+            htmlElement.setAttribute("data-theme", isDark ? "light" : "dark");
+            icon.classList.toggle("bi-moon");
+            icon.classList.toggle("bi-sun");
         });
     </script>
 </body>
